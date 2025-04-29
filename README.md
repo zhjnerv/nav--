@@ -53,49 +53,61 @@
 
 创建D1数据库,输入名称**book** ,点击创建!
 
-![20250428165900854](https://img.wangwango.me/file/1745887730401_image-20250428165900854.png)
+![image](https://github.com/user-attachments/assets/f49d61ea-a87b-42ed-a460-98e53fb340e0)
+
 
 点击控制台,分别创建表**sites**,**pending_sites**,看下图字段!
 
-![20250428170500147](https://img.wangwango.me/file/1745887778749_image-20250428170500147.png)
+![image](https://github.com/user-attachments/assets/fdc5c65d-3726-4e71-8163-62dc2ed1bbdf)
 
-![20250428170554713](https://img.wangwango.me/file/1745887766412_image-20250428170554713.png)
+
+![image](https://github.com/user-attachments/assets/735e63b7-1ba8-49ce-94e6-0ccf9bf55042)
+
 
 创建KV,名称**NAV_AUTH**,根据自己实际情况修改密钥的值,这是后续用于登陆后台管理的账号密码!
 
-![20250428170648030](https://img.wangwango.me/file/1745887794533_image-20250428170648030.png)
+![image](https://github.com/user-attachments/assets/ed274f2d-2bf0-4f26-aa86-90e22286e94b)
 
-![20250428170820688](https://img.wangwango.me/file/1745887835068_image-20250428170820688.png)
+
+![image](https://github.com/user-attachments/assets/2fd5742f-5709-4ad9-b4fa-865cbca0bb8e)
+
 
 ### 步骤 2: 创建workers
 
 看下图,点击hello worker创建一个workers,输入自定义名称进行创建!
 
-![20250428171210030](https://img.wangwango.me/file/1745887862851_image-20250428171210030.png)
+![image](https://github.com/user-attachments/assets/02c3d4c4-6746-45fe-a428-516023fed880)
+
 
 然后点击编辑代码,将本项目中的worker.js代码复制粘贴进去,替换原有代码,点击部署!
 
-![20250428171351061](https://img.wangwango.me/file/1745887887776_image-20250428171351061.png)
+![image](https://github.com/user-attachments/assets/f2f4fe86-aab1-4805-9ba3-bac8b889875d)
+
 
 然后前往设置中,绑定KV和DB
 
-![20250428171621951](https://img.wangwango.me/file/1745887901043_image-20250428171621951.png)
+![image](https://github.com/user-attachments/assets/269f4678-4e8a-4dbd-a8d7-f186466f4380)
+
 
 然后访问页面即可,此时由于没有添加书签,访问首页会提示没有数据,可以前往admin后台登陆之后,添加一个书签,即可看到页面!
 
-![20250428172320000](https://img.wangwango.me/file/1745887918992_image-20250428172320000.png)
+![image](https://github.com/user-attachments/assets/6f3e0185-25b4-423e-b34c-26f88aabb807)
+
 
 页面提示这个信息!
 
-![20250428172204575](https://img.wangwango.me/file/1745887932630_image-20250428172204575.png)
+![image](https://github.com/user-attachments/assets/9b9ae7fb-9857-4481-b758-b58a556abf6f)
+
 
 网址后面拼接 /admin 即可进入后台页面,输入在DB中设置的密码,然后进行添加!
 
-![20250428172455849](https://img.wangwango.me/file/1745887961338_image-20250428172455849.png)
+![image](https://github.com/user-attachments/assets/284e3560-284f-4313-a7c6-d651d2e25c00)
+
 
 再回到首页,就能看到网站了!
 
-![20250428172518433](https://img.wangwango.me/file/1745887973348_image-20250428172518433.png)
+![image](https://github.com/user-attachments/assets/99c27184-6688-4464-b6c9-d29882927032)
+
 
 
 
