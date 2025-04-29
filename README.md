@@ -1,8 +1,9 @@
 # 拾光集 - 精品网址导航站
 
 <p align="center">
-  <img src="https://www.wangwangit.com/img/favicon.webp" alt="拾光集Logo" width="200">
+  <img src="https://github.com/user-attachments/assets/c0200239-4b89-4f3f-9d5d-99f731661d7c" alt="拾光集Logo" width="200">
 </p>
+
 
 
 <p align="center">
@@ -30,9 +31,11 @@
 
 ## 🖼️ 预览图
 
-![20250428165157470](https://img.wangwango.me/file/1745887672724_image-20250428165157470.png)
+![image](https://github.com/user-attachments/assets/b12755c5-7669-408f-be05-2db6ba1b02cc)
 
-![20250428165221411](https://img.wangwango.me/file/1745887688601_image-20250428165221411.png)
+
+![image](https://github.com/user-attachments/assets/d387794d-95f8-42e9-879d-41fc6c5f5fa8)
+
 
 ## 🚀 快速开始
 
