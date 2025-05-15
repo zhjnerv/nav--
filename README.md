@@ -56,12 +56,36 @@
 ![image](https://github.com/user-attachments/assets/f49d61ea-a87b-42ed-a460-98e53fb340e0)
 
 
-点击控制台,分别创建表**sites**,**pending_sites**,看下图字段!
+点击控制台,分别创建表**sites**,**pending_sites**,看下图表,添加字段，注意设置**主密钥**!
+
+**表名称:** `sites`
+
+| 列名称 | 类型 | 默认值 | 主密钥 |
+| :------------ | :------ | :----- | :-------- |
+| id            | Integer |        | 主密钥      |
+| name          | text    |        |           |
+| url           | text    |        |           |
+| logo          | text    |        |           |
+| desc          | text    |        |           |
+| catelog       | text    |        |           |
+| create_time   | text    |        |           |
+| update_time   | text    |        |           |
 
 ![image](https://github.com/user-attachments/assets/fdc5c65d-3726-4e71-8163-62dc2ed1bbdf)
 
+**表名称:** `pending_sites`
 
-![image](https://github.com/user-attachments/assets/735e63b7-1ba8-49ce-94e6-0ccf9bf55042)
+| 列名称 | 类型 | 默认值 | 主密钥 |
+| :---------- | :------- | :----- | :-------- |
+| id          | integer  |        | 主密钥      |
+| name        | text     |        |           |
+| url         | text     |        |           |
+| logo        | text     |        |           |
+| desc        | text     |        |           |
+| catelog     | text     |        |           |
+| create_time | text     |        |           |
+![Image](https://github.com/user-attachments/assets/1f21d1f7-1013-43de-83fd-a7e13bb2f955)
+
 
 
 创建KV,名称**NAV_AUTH**,根据自己实际情况修改密钥的值,这是后续用于登陆后台管理的账号密码!
