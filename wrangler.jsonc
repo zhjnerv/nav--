@@ -1,8 +1,17 @@
 {
-    "name": "top",
-    "main": "worker.js",
-    "compatibility_date": "2023-12-01",
-    "vars": {
-      "ENVIRONMENT": "production"
+  "name": "top",
+  "main": "worker.js",
+  "compatibility_date": "2023-12-01",
+  "bindings": [
+    {
+      "name": "NAV_DB",
+      "type": "d1",
+      "id": "0d2dbc30-aaf6-4fd5-b383-72181803e133"
+    },
+    {
+      "name": "NAV_AUTH",
+      "type": "kv_namespace",
+      "id": "f8d663bd146b41f4a33ce9bb91ce8815"
     }
-  }
+  ]
+}
