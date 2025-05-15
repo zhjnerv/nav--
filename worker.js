@@ -1397,7 +1397,7 @@ function renderSiteCard(site) {
     <head>
       <meta charset="UTF-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>拾光集 - 精品网址导航</title>
+      <title>专利代理师导航站 - 精选网址导航</title>
       <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet"/>
       <link rel="icon" href="https://www.wangwangit.com/images/head/a.webp" type="image/webp"/>
       <script src="https://cdn.tailwindcss.com"></script>
@@ -1692,9 +1692,9 @@ function renderSiteCard(site) {
         <!-- 页脚 -->
         <footer class="bg-white py-8 px-6 mt-12 border-t border-gray-200">
           <div class="max-w-5xl mx-auto text-center">
-            <p class="text-gray-500">© ${new Date().getFullYear()} 拾光集 | 愿你在此找到方向</p>
+            <p class="text-gray-500">© ${new Date().getFullYear()} zhjwork.online | 白色的未来有光明的明天在等待</p>
             <div class="mt-4 flex justify-center space-x-6">
-              <a href="https://www.wangwangit.com/" target="_blank" class="text-gray-400 hover:text-primary-500 transition-colors">
+              <a href="https://zhjwork.online/" target="_blank" class="text-gray-400 hover:text-primary-500 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
