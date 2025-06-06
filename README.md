@@ -52,7 +52,7 @@
 ### [v1] - [20250606] - 功能增强与性能优化
 
 本次更新带来了一系列核心功能增强和性能改进，致力于提供更强大、更快速、更友好的使用体验。
-需要前往D1数据库执行下面的SQL语句,新增排序字段
+旧版本的更新到V1版本需要前往D1数据库执行下面的SQL语句,新增排序字段
 > ALTER TABLE sites ADD COLUMN sort_order INTEGER DEFAULT 9999;
 
 ![image](https://github.com/user-attachments/assets/4b12b1ef-042e-407d-9efb-7fecf9efb02c)
@@ -89,6 +89,56 @@
 
 ![image](https://github.com/user-attachments/assets/f49d61ea-a87b-42ed-a460-98e53fb340e0)
 
+快捷建表语句(执行后无需再按下方进行手动建表!)
+```
+-- D1 数据库初始化脚本
+-- 功能: 创建导航站所需的 sites 和 pending_sites 表，并建立索引。
+-- 特性: 此脚本可重复执行，它会先安全地删除旧表再创建新表。
+
+-- -- -- -- -- -- -- -- -- -- -- -- --
+-- 1. 主数据表：sites
+-- 存储所有已审核、公开显示的网站链接。
+-- -- -- -- -- -- -- -- -- -- -- -- --
+
+DROP TABLE IF EXISTS sites;
+
+CREATE TABLE sites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,                           -- 唯一ID，自动增长
+    name TEXT NOT NULL,                                             -- 网站名称，不能为空
+    url TEXT NOT NULL,                                              -- 网站URL，不能为空
+    logo TEXT,                                                      -- Logo图片链接，可以为空
+    "desc" TEXT,                                                    -- 网站描述，可以为空
+    catelog TEXT NOT NULL,                                          -- 网站分类，不能为空
+    sort_order INTEGER NOT NULL DEFAULT 9999,                       -- 排序值，数字越小越靠前，默认为9999
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,                 -- 创建时间，默认为当前时间
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP                  -- 更新时间，默认为当前时间
+);
+
+-- 为 sites 表创建索引以优化查询性能
+CREATE INDEX idx_sites_catalog ON sites (catelog);                  -- 为分类筛选创建索引
+CREATE INDEX idx_sites_sort_order ON sites (sort_order, create_time); -- 为默认排序创建复合索引
+
+
+-- -- -- -- -- -- -- -- -- -- -- -- --
+-- 2. 待审核表：pending_sites
+-- 存储用户提交但尚未被管理员审核的网站链接。
+-- -- -- -- -- -- -- -- -- -- -- -- --
+
+DROP TABLE IF EXISTS pending_sites;
+
+CREATE TABLE pending_sites (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,                           -- 唯一ID，自动增长
+    name TEXT NOT NULL,                                             -- 网站名称
+    url TEXT NOT NULL,                                              -- 网站URL
+    logo TEXT,                                                      -- Logo图片链接
+    "desc" TEXT,                                                    -- 网站描述
+    catelog TEXT NOT NULL,                                          -- 网站分类
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP                  -- 提交时间
+);
+
+-- 为 pending_sites 表创建索引
+CREATE INDEX idx_pending_sites_create_time ON pending_sites (create_time); -- 按时间查询待审核列表时更快
+```
 
 点击控制台,分别创建表**sites**,**pending_sites**,看下图表,添加字段，注意设置**主密钥**!
 
