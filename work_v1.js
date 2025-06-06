@@ -1303,84 +1303,127 @@ async exportConfig(request, env, ctx) {
       <html lang="zh-CN">
       <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>管理员登录</title>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
         <style>
-          body {
+          /* [优化] 全局重置与现代CSS最佳实践 */
+          *, *::before, *::after {
+            box-sizing: border-box;
+          }
+          
+          html, body {
+            height: 100%; /* 确保flex容器能撑满整个屏幕 */
+            margin: 0;
+            padding: 0;
             font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f8f9fa;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+
+          /* [优化] 主体布局，确保在任何设备上都完美居中 */
+          body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            background-color: #f8f9fa;
+            padding: 1rem; /* 为小屏幕提供安全边距 */
           }
+
+          /* [优化] 登录容器样式 */
           .login-container {
             background-color: white;
             padding: 2rem;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px M10px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0,0,0,0.08);
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
+            animation: fadeIn 0.5s ease-out;
           }
+          
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
           .login-title {
-            font-size: 1.5rem;
+            font-size: 1.75rem; /* 稍大一点更醒目 */
+            font-weight: 700;
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin: 0 0 1.5rem 0;
             color: #333;
           }
+
           .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
           }
+
           label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: #555;
           }
-          input {
+
+          input[type="text"], input[type="password"] {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.875rem 1rem; /* 调整内边距，手感更好 */
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 6px; /* 稍大的圆角 */
             font-size: 1rem;
-            transition: border-color 0.2s;
+            transition: border-color 0.2s, box-shadow 0.2s;
           }
+
           input:focus {
             border-color: #7209b7;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(114, 9, 183, 0.2);
+            box-shadow: 0 0 0 3px rgba(114, 9, 183, 0.15);
           }
+
           button {
             width: 100%;
-            padding: 0.75rem;
+            padding: 0.875rem;
             background-color: #7209b7;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s, transform 0.1s;
           }
+
           button:hover {
             background-color: #5a067c;
           }
+          
+          button:active {
+            transform: scale(0.98);
+          }
+
           .error-message {
             color: #dc3545;
             font-size: 0.875rem;
             margin-top: 0.5rem;
+            text-align: center;
             display: none;
           }
+
           .back-link {
             display: block;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
             color: #7209b7;
             text-decoration: none;
             font-size: 0.875rem;
           }
+
           .back-link:hover {
             text-decoration: underline;
           }
@@ -1399,7 +1442,7 @@ async exportConfig(request, env, ctx) {
               <input type="password" id="password" name="password" required>
             </div>
             <div class="error-message" id="errorMessage">用户名或密码错误</div>
-            <button type="submit">登录</button>
+            <button type="submit">登 录</button>
           </form>
           <a href="/" class="back-link">返回首页</a>
         </div>
