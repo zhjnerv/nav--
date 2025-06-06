@@ -32,52 +32,7 @@ export const fallbackSVGIcons = [
    </svg>`,
 ];
 
-/**
- * 渲染网站 Logo 的辅助函数 (三级递进逻辑)
- * 1. 优先使用手动设置的 logo
- * 2. 如果没有，则尝试使用 Google Favicon API
- * 3. 如果图片加载失败 (无论是手动logo还是API)，则回退显示首字母
- * @param {object} site - 网站数据对象
- * @returns {string} - 最终渲染的 HTML 字符串
- */
-function renderLogoHTML(site) {
-  // 定义最终的回退方案：显示首字母的彩色方块
-  const fallbackInitial = `<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center text-white font-bold text-lg">${site.name.charAt(0).toUpperCase()}</div>`;
 
-  // 为了在 onerror 属性中使用，我们需要对 HTML 字符串中的引号进行转义
-  const escapedFallback = fallbackInitial.replace(/"/g, '"');
-
-  let logoSrc = '';
-
-  // 逻辑 1: 检查是否存在手动设置的 logo
-  if (site.logo && site.logo.trim() !== '') {
-    logoSrc = site.logo;
-  } 
-  // 逻辑 2: 如果没有手动 logo，并且有合法的 URL，则构建 Google Favicon API 链接
-  else if (site.url) {
-    try {
-      const domain = new URL(site.url).hostname;
-      // 使用 sz=64 参数获取一个 64x64px 的图标，更高清
-      logoSrc = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
-    } catch (e) {
-      // 如果 URL 格式不正确，直接返回回退方案
-      console.error(`Invalid URL for site [${site.name}]: ${site.url}`);
-      return fallbackInitial;
-    }
-  } 
-  // 如果连 URL 都没有，也直接返回回退方案
-  else {
-    return fallbackInitial;
-  }
-
-  // 生成 <img> 标签。
-  // 核心亮点在于 onerror 属性：
-  // 当 src 指定的图片加载失败时，浏览器会自动执行 onerror 里的JavaScript代码。
-  // this.onerror=null; 是为了防止在替换失败后无限循环触发 onerror。
-  // this.outerHTML=... 会将整个 <img> 标签替换为我们的回退方案HTML。
-  // 这是一个非常强大的、纯客户端的容错机制。
-  return `<img src="${logoSrc}" alt="${site.name}" class="w-10 h-10 rounded-lg object-cover bg-gray-100" onerror="this.onerror=null; this.outerHTML='${escapedFallback}';">`;
-}
 
 function getRandomSVG() {
   return fallbackSVGIcons[Math.floor(Math.random() * fallbackSVGIcons.length)];
@@ -1524,38 +1479,12 @@ async exportConfig(request, env, ctx) {
    * 优化后的主逻辑：处理请求，返回优化后的 HTML
    */
   async function handleRequest(request, env, ctx) {
- const url = new URL(request.url);
-
-    // [新增] 缓存逻辑开始
-    // 1. 定义默认缓存对象
-    const cache = caches.default;
-    // 2. 创建一个针对当前请求的缓存请求对象 (URL 是我们的缓存键)
-    const cacheRequest = new Request(url.toString(), request);
-    // 3. 尝试从缓存中获取响应
-    let response = await cache.match(cacheRequest);
-
-    // 4. 如果在缓存中找到了响应，直接返回！
-    if (response) {
-      console.log(`Cache HIT for: ${url.toString()}`);
-      // [新增] 添加一个自定义响应头，方便我们调试时确认是否命中了缓存
-      // 您可以在浏览器的开发者工具 -> Network -> 点击请求 -> Headers 中看到它
-      const newHeaders = new Headers(response.headers);
-      newHeaders.set('X-Cache-Status', 'HIT');
-      return new Response(response.body, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: newHeaders,
-      });
-    }
-    console.log(`Cache MISS for: ${url.toString()}`);
-    // [缓存逻辑结束]
-
-    // 如果缓存未命中，则执行原始的数据库查询逻辑
+    const url = new URL(request.url);
     const catalog = url.searchParams.get('catalog');
 
     let sites = [];
     try {
-      const { results } = await env.NAV_DB.prepare('SELECT * FROM sites ORDER BY sort_order ASC, create_time DESC').all();
+      const { results } = await env.NAV_DB.prepare('SELECT * FROM sites ORDER BY create_time').all();
       sites = results;
     } catch (e) {
       return new Response(`Failed to fetch data: ${e.message}`, { status: 500 });
@@ -1569,8 +1498,8 @@ async exportConfig(request, env, ctx) {
     const catalogs = Array.from(new Set(sites.map(s => s.catelog)));
     
     // 根据 URL 参数筛选站点
-const currentCatalog = catalog || "全部"; // 正确：必须先声明变量
-const currentSites = catalog ? sites.filter(s => s.catelog === currentCatalog) : sites; // 然后才能在这里使用
+    const currentCatalog = catalog || catalogs[0];
+    const currentSites = catalog ? sites.filter(s => s.catelog === currentCatalog) : sites;
     // 优化后的 HTML
     const html = `
     <!DOCTYPE html>
@@ -1854,9 +1783,12 @@ const currentSites = catalog ? sites.filter(s => s.catelog === currentCatalog) :
                 <div class="p-5">
                   <a href="${site.url}" target="_blank" class="block">
                     <div class="flex items-start">
-						  <div class="flex-shrink-0 mr-4">
-				  ${renderLogoHTML(site)}
-				</div>
+                    <div class="flex-shrink-0 mr-4">
+                    ${site.logo 
+                      ? `<img src="${site.logo}" alt="${site.name}" class="w-10 h-10 rounded-lg object-cover bg-gray-100">`
+                      : `<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center text-white font-bold text-lg">${site.name.charAt(0).toUpperCase()}</div>`
+                    }
+                  </div>
                       <div class="flex-1 min-w-0">
                         <h3 class="text-base font-medium text-gray-900 truncate">${site.name}</h3>
                         <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
@@ -2185,21 +2117,9 @@ const currentSites = catalog ? sites.filter(s => s.catelog === currentCatalog) :
     </html>
     `;
 
-   // 生成最终的响应对象
-    response = new Response(html, {
+    return new Response(html, {
       headers: { 'content-type': 'text/html; charset=utf-8' }
     });
-
-    // [新增] 缓存逻辑继续
-    // 5. 将新生成的响应存入缓存
-    // `ctx.waitUntil` 确保 Worker 不会在缓存写入完成前被终止
-    ctx.waitUntil(cache.put(cacheRequest, response.clone()));
-
-    // 6. 添加自定义响应头，告知我们这次是未命中缓存的请求
-    response.headers.set('X-Cache-Status', 'MISS');
-    // [缓存逻辑结束]
-
-    return response;
 }
 
 
