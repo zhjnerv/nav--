@@ -89,7 +89,11 @@
 
 ![image](https://github.com/user-attachments/assets/f49d61ea-a87b-42ed-a460-98e53fb340e0)
 
-快捷建表语句(执行后无需再按下方进行手动建表!)
+快捷建表语句(复制下面的建表语句,按图上执行后无需再按下方进行手动建表!)
+
+![image](https://github.com/user-attachments/assets/be10c3a0-a862-467a-8114-d5c5c8e48d2a)
+
+
 ```
 -- D1 数据库初始化脚本
 -- 功能: 创建导航站所需的 sites 和 pending_sites 表，并建立索引。
