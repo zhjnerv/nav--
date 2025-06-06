@@ -32,6 +32,53 @@ export const fallbackSVGIcons = [
    </svg>`,
 ];
 
+/**
+ * 渲染网站 Logo 的辅助函数 (三级递进逻辑)
+ * 1. 优先使用手动设置的 logo
+ * 2. 如果没有，则尝试使用 Google Favicon API
+ * 3. 如果图片加载失败 (无论是手动logo还是API)，则回退显示首字母
+ * @param {object} site - 网站数据对象
+ * @returns {string} - 最终渲染的 HTML 字符串
+ */
+function renderLogoHTML(site) {
+  // 定义最终的回退方案：显示首字母的彩色方块
+  const fallbackInitial = `<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center text-white font-bold text-lg">${site.name.charAt(0).toUpperCase()}</div>`;
+
+  // 为了在 onerror 属性中使用，我们需要对 HTML 字符串中的引号进行转义
+  const escapedFallback = fallbackInitial.replace(/"/g, '"');
+
+  let logoSrc = '';
+
+  // 逻辑 1: 检查是否存在手动设置的 logo
+  if (site.logo && site.logo.trim() !== '') {
+    logoSrc = site.logo;
+  } 
+  // 逻辑 2: 如果没有手动 logo，并且有合法的 URL，则构建 Google Favicon API 链接
+  else if (site.url) {
+    try {
+      const domain = new URL(site.url).hostname;
+      // 使用 sz=64 参数获取一个 64x64px 的图标，更高清
+      logoSrc = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+    } catch (e) {
+      // 如果 URL 格式不正确，直接返回回退方案
+      console.error(`Invalid URL for site [${site.name}]: ${site.url}`);
+      return fallbackInitial;
+    }
+  } 
+  // 如果连 URL 都没有，也直接返回回退方案
+  else {
+    return fallbackInitial;
+  }
+
+  // 生成 <img> 标签。
+  // 核心亮点在于 onerror 属性：
+  // 当 src 指定的图片加载失败时，浏览器会自动执行 onerror 里的JavaScript代码。
+  // this.onerror=null; 是为了防止在替换失败后无限循环触发 onerror。
+  // this.outerHTML=... 会将整个 <img> 标签替换为我们的回退方案HTML。
+  // 这是一个非常强大的、纯客户端的容错机制。
+  return `<img src="${logoSrc}" alt="${site.name}" class="w-10 h-10 rounded-lg object-cover bg-gray-100" onerror="this.onerror=null; this.outerHTML='${escapedFallback}';">`;
+}
+
 function getRandomSVG() {
   return fallbackSVGIcons[Math.floor(Math.random() * fallbackSVGIcons.length)];
 }
@@ -1807,12 +1854,9 @@ const currentSites = catalog ? sites.filter(s => s.catelog === currentCatalog) :
                 <div class="p-5">
                   <a href="${site.url}" target="_blank" class="block">
                     <div class="flex items-start">
-                      <div class="flex-shrink-0 mr-4">
-                        ${site.logo 
-                          ? `<img src="${site.logo}" alt="${site.name}" class="w-10 h-10 rounded-lg object-cover">`
-                          : `<div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary-500 to-accent-400 flex items-center justify-center text-white font-bold text-lg">${site.name.charAt(0)}</div>`
-                        }
-                      </div>
+						  <div class="flex-shrink-0 mr-4">
+				  ${renderLogoHTML(site)}
+				</div>
                       <div class="flex-1 min-w-0">
                         <h3 class="text-base font-medium text-gray-900 truncate">${site.name}</h3>
                         <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
