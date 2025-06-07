@@ -272,6 +272,9 @@ tailwind.config = {
 
 项目链接: [https://github.com/wangwangit/nav](https://github.com/wangwangit/nav)
 
+
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 ---
 
 <p align="center">如果你喜欢这个项目，别忘了给它一个⭐️!</p>
