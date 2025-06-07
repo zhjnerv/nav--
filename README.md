@@ -67,6 +67,7 @@ url TEXT NOT NULL,
 logo TEXT,
 "desc" TEXT,
 catelog TEXT NOT NULL,
+status TEXT,
 sort_order INTEGER NOT NULL DEFAULT 9999,
 create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
 update_time DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -80,6 +81,7 @@ url TEXT NOT NULL,
 logo TEXT,
 "desc" TEXT,
 catelog TEXT NOT NULL,
+status TEXT,
 create_time DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
