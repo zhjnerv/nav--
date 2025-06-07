@@ -105,7 +105,8 @@ CREATE TABLE sites (
     "desc" TEXT,                                                   
     catelog TEXT NOT NULL,                                         
     sort_order INTEGER NOT NULL DEFAULT 9999,                      
-    update_time DATETIME DEFAULT CURRENT_TIMESTAMP               
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP           
 );
 
 
