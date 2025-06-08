@@ -116,7 +116,7 @@ create_time DATETIME DEFAULT CURRENT_TIMESTAMP
 
 1.  进入你刚刚创建的 Worker 的 `设置` -> `变量`。
 2.  在 **D1 数据库绑定** 中，点击 `添加绑定`：
-    -   变量名称: `DB`
+    -   变量名称: `NAV_DB`
     -   D1 数据库: 选择你创建的 `book`
 3.  在 **KV 命名空间绑定** 中，点击 `添加绑定`：
     -   变量名称: `NAV_AUTH`
